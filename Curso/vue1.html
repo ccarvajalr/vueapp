@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>Document</title>
+</head>
+
+<body>
+
+    <div id="app">
+        <header>
+            <h1>{{titulo}}</h1>
+        </header>
+        <section>
+            <div>
+                <input type="text" name="" id="" v-model="nuevaFruta" @keyup.enter="agregarFruta">
+                <span>{{nuevaFruta}}</span>
+            </div>
+            <div>
+                <button @click="agregarFruta">Agregar</button>
+            </div>
+            <ul>
+
+                <li v-for="fruta of frutasObj">
+                    <input type="number" name="" id="" v-model.number="fruta.cantidad"> {{fruta.nombre}} - {{fruta.cantidad}}
+                    <span v-if="(fruta.cantidad < 1)">Sin Stock</span>
+                </li>
+            </ul>
+            <h4>TOTAL: {{sumarFrutas}}</h4>
+
+        </section>
+    </div>
+</body>
+<!-- VUE Library-->
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script>
+    const app = new Vue({
+        el: '#app',
+        data: {
+            titulo: "Hola Mundo con Vue",
+            frutas: ['Peras', 'Manzanas', 'Naranjas'],
+            frutasObj: [{
+                    nombre: 'Peras',
+                    cantidad: 2
+                }, {
+                    nombre: 'Manzanas',
+                    cantidad: 0
+                }, {
+                    nombre: 'Naranjas',
+                    cantidad: 5
+                },
+
+            ],
+            nuevaFruta: '',
+            total: 0
+
+        },
+        methods: {
+            agregarFruta() {
+                this.frutasObj.push({
+                    nombre: this.nuevaFruta,
+                    cantidad: 2
+                });
+                this.nuevaFruta = '';
+                console.log('CLICK!');
+                //this.sumarFrutas();
+            }
+        },
+        computed: {
+            sumarFrutas() {
+                this.total = 0;
+                for (fruta of this.frutasObj) {
+                    this.total += fruta.cantidad
+                }
+
+                return this.total;
+            }
+        },
+
+    });
+</script>
+
+</html>
