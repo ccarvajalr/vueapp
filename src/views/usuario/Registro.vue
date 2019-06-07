@@ -217,7 +217,7 @@ export default {
       if (!this.$v.f1.repetirPassword.sameAs) {
         errores.push("Las contraseñas no coinciden");
       }
-
+      //test
       return errores;
     },
      erroresNombres() {
