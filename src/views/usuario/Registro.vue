@@ -30,9 +30,19 @@
               type="password"
             ></v-text-field>
           </v-card-text>
-          <v-layout justify-end>
-            <v-btn :depressed="$v.f1.invalid" :disabled="$v.f1.invalid" color="secondary" @click="siguiente(1)">Siguiente</v-btn>
-          </v-layout>
+          <v-card-text>
+            <v-layout justify-end>
+              <v-btn
+                :depressed="$v.f1.invalid"
+                :disabled="$v.f1.invalid"
+                color="secondary"
+                @click="siguiente(1)"
+              >Siguiente</v-btn>
+            </v-layout>
+          </v-card-text>
+          <v-card-actions>
+            <v-btn :to="{name:'login'}" flat color="secondary">¿tienes cuenta?.</v-btn>
+          </v-card-actions>
         </v-card>
 
         <!-- DATOS PERSONALES-->
@@ -41,8 +51,19 @@
             <v-toolbar-title>Ingresa tus Nombres y Apellidos</v-toolbar-title>
           </v-toolbar>
           <v-card-text>
-            <v-text-field :error-messages="erroresNombres" @blur="$v.f2.nombres.$touch()" v-model="f2.nombres" label="Nombres"></v-text-field>
-            <v-text-field @keyup.enter="siguiente(2)" :error-messages="erroresApellidos" @blur="$v.f2.apellidos.$touch()" v-model="f2.apellidos" label="Apellidos"></v-text-field>
+            <v-text-field
+              :error-messages="erroresNombres"
+              @blur="$v.f2.nombres.$touch()"
+              v-model="f2.nombres"
+              label="Nombres"
+            ></v-text-field>
+            <v-text-field
+              @keyup.enter="siguiente(2)"
+              :error-messages="erroresApellidos"
+              @blur="$v.f2.apellidos.$touch()"
+              v-model="f2.apellidos"
+              label="Apellidos"
+            ></v-text-field>
           </v-card-text>
           <v-card-text>
             <v-layout>
@@ -52,12 +73,16 @@
                 </v-layout>
               </v-flex>
 
-               <v-flex xs6>
+              <v-flex xs6>
                 <v-layout justify-end>
-                  <v-btn color="secondary" :depressed="$v.f2.invalid" :disabled="$v.f2.invalid"  @click="siguiente(2)">Siguiente</v-btn>
+                  <v-btn
+                    color="secondary"
+                    :depressed="$v.f2.invalid"
+                    :disabled="$v.f2.invalid"
+                    @click="siguiente(2)"
+                  >Siguiente</v-btn>
                 </v-layout>
               </v-flex>
-
             </v-layout>
           </v-card-text>
         </v-card>
@@ -72,21 +97,20 @@
               <v-date-picker v-model="fechaNacimiento" reactive locale="es-cl" class="elevation-3"></v-date-picker>
             </v-layout>
           </v-card-text>
-            <v-card-text>
-              <v-layout>
-                <v-flex xs6>
-                  <v-layout justify-start>
-                    <v-btn @click="vista--">Atrás</v-btn>
-                  </v-layout>
-                </v-flex>
-                <v-flex xs6>
-                  <v-layout justify-end>
-                    <v-btn color="secondary" @click="vista++">Registrarse</v-btn>
-                  </v-layout>
-                </v-flex>
-              </v-layout>
-            </v-card-text>
-          
+          <v-card-text>
+            <v-layout>
+              <v-flex xs6>
+                <v-layout justify-start>
+                  <v-btn @click="vista--">Atrás</v-btn>
+                </v-layout>
+              </v-flex>
+              <v-flex xs6>
+                <v-layout justify-end>
+                  <v-btn color="secondary" @click="vista++">Registrarse</v-btn>
+                </v-layout>
+              </v-flex>
+            </v-layout>
+          </v-card-text>
         </v-card>
       </v-slide-y-transition>
     </v-flex>
@@ -103,21 +127,21 @@ import {
   alpha
 } from "vuelidate/lib/validators";
 
-import {nombreCompuesto} from '@/utilidades/validaciones'
+import { nombreCompuesto } from "@/utilidades/validaciones";
 
 export default {
   data() {
     return {
-      vista: 2,
+      vista: 1,
       f1: {
         email: "",
         password: "",
         repetirPassword: ""
       },
       f2: {
-      nombres:'',
-      apellidos:''
-    },
+        nombres: "",
+        apellidos: ""
+      },
       fechaNacimiento: null
     };
   },
@@ -139,18 +163,18 @@ export default {
         maxLength: maxLength(12)
       }
     },
-    f2:{
-      nombres :{
+    f2: {
+      nombres: {
         required,
         minLength: minLength(3),
         maxLength: maxLength(20),
-        nombreCompuesto 
+        nombreCompuesto
       },
-      apellidos :{
+      apellidos: {
         required,
         minLength: minLength(3),
         maxLength: maxLength(20),
-        nombreCompuesto 
+        nombreCompuesto
       }
     }
   },
@@ -220,26 +244,46 @@ export default {
       //test
       return errores;
     },
-     erroresNombres() {
+    erroresNombres() {
       let errores = [];
-      if (!this.$v.f2.nombres.$dirty) {return errores }
-      if (!this.$v.f2.nombres.minLength) { errores.push("Ingresa al menos 3 carácteres") }
-      if (!this.$v.f2.nombres.required) { errores.push("Ingresa tus nombres.") }
-      if (!this.$v.f2.nombres.maxLength) { errores.push("Ingresa máximo 20 carácteres") }
-      if (!this.$v.f2.nombres.nombreCompuesto) { errores.push("Ingrese un nombre válido") }
+      if (!this.$v.f2.nombres.$dirty) {
+        return errores;
+      }
+      if (!this.$v.f2.nombres.minLength) {
+        errores.push("Ingresa al menos 3 carácteres");
+      }
+      if (!this.$v.f2.nombres.required) {
+        errores.push("Ingresa tus nombres.");
+      }
+      if (!this.$v.f2.nombres.maxLength) {
+        errores.push("Ingresa máximo 20 carácteres");
+      }
+      if (!this.$v.f2.nombres.nombreCompuesto) {
+        errores.push("Ingrese un nombre válido");
+      }
 
       return errores;
     },
-     erroresApellidos() {
+    erroresApellidos() {
       let errores = [];
-      if (!this.$v.f2.apellidos.$dirty) { return errores }
-      if (!this.$v.f2.apellidos.minLength) { errores.push("Ingresa al menos 3 carácteres") }
-      if (!this.$v.f2.apellidos.required) { errores.push("Ingresa tus apellidos.") }
-      if (!this.$v.f2.apellidos.maxLength) { errores.push("Ingresa máximo 20 carácteres") }
-      if (!this.$v.f2.apellidos.nombreCompuesto) { errores.push("Ingrese un apellido válido") }
+      if (!this.$v.f2.apellidos.$dirty) {
+        return errores;
+      }
+      if (!this.$v.f2.apellidos.minLength) {
+        errores.push("Ingresa al menos 3 carácteres");
+      }
+      if (!this.$v.f2.apellidos.required) {
+        errores.push("Ingresa tus apellidos.");
+      }
+      if (!this.$v.f2.apellidos.maxLength) {
+        errores.push("Ingresa máximo 20 carácteres");
+      }
+      if (!this.$v.f2.apellidos.nombreCompuesto) {
+        errores.push("Ingrese un apellido válido");
+      }
 
       return errores;
-    },
+    }
   }
 };
 </script>
